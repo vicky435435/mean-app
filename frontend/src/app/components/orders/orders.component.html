@@ -1,0 +1,196 @@
+<div class="orders-page">
+
+  <!-- Header -->
+  <div class="page-header">
+    <h1>Orders</h1>
+    <button class="btn btn-primary" (click)="openCreateModal()">+ New Order</button>
+  </div>
+
+  <!-- Alerts -->
+  <div class="alert alert-error"   *ngIf="errorMsg"> {{ errorMsg }}</div>
+  <div class="alert alert-success" *ngIf="successMsg"> {{ successMsg }}</div>
+
+  <!-- Loading -->
+  <div class="loading-wrap" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading orders...</p>
+  </div>
+
+  <!-- Orders Table -->
+  <div class="table-wrap" *ngIf="!loading">
+    <table class="orders-table" *ngIf="orders.length > 0; else noOrders">
+      <thead>
+        <tr>
+          <th>Order ID</th>
+          <th>Items</th>
+          <th>Total</th>
+          <th>Status</th>
+          <th>Date</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let order of orders">
+          <td class="order-id">#{{ order._id?.slice(-8) }}</td>
+          <td>{{ order.productIds.length }} item(s)</td>
+          <td class="amount">${{ order.totalAmount | number:'1.2-2' }}</td>
+          <td>
+            <span class="status-badge" [ngClass]="'status-' + order.status">
+              {{ order.status | titlecase }}
+            </span>
+          </td>
+          <td>{{ order.createdAt | date:'mediumDate' }}</td>
+          <td class="actions-cell">
+            <button class="icon-btn" (click)="viewOrder(order)" title="View">👁️</button>
+            <button
+              class="icon-btn"
+              (click)="editOrder(order)"
+              title="Update Status"
+              [disabled]="order.status === 'delivered' || order.status === 'cancelled'"
+            >Edit</button>
+            <button
+              class="icon-btn danger"
+              (click)="confirmDelete(order)"
+              title="Delete"
+              [disabled]="order.status === 'shipped' || order.status === 'delivered'"
+            >Delete</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <ng-template #noOrders>
+      <div class="empty-state">
+        <div class="empty-icon">🛒</div>
+        <p>No orders yet.</p>
+        <button class="btn btn-primary" (click)="openCreateModal()">Create First Order</button>
+      </div>
+    </ng-template>
+  </div>
+
+
+  <!-- ── CREATE ORDER MODAL ── -->
+  <div class="modal-backdrop" *ngIf="showCreateModal" (click)="showCreateModal = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <h2>New Order</h2>
+        <button class="icon-btn" (click)="showCreateModal = false">✕</button>
+      </div>
+
+      <div class="form-group">
+        <label>Select Products</label>
+        <div class="product-list">
+          <div
+            class="product-item"
+            *ngFor="let product of availableProducts"
+            [class.selected]="isSelected(product._id!)"
+            (click)="toggleProduct(product)"
+          >
+            <div class="product-info">
+              <strong>{{ product.name }}</strong>
+              <span>${{ product.price }}</span>
+            </div>
+            <div class="qty-control" *ngIf="isSelected(product._id!)" (click)="$event.stopPropagation()">
+              <button (click)="changeQty(product._id!, -1)">−</button>
+              <span>{{ getQty(product._id!) }}</span>
+              <button (click)="changeQty(product._id!, 1)">+</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label>Shipping Address</label>
+        <input type="text" [(ngModel)]="shippingAddress" placeholder="123 Main St, City, Country" />
+      </div>
+
+      <div class="form-group">
+        <label>Notes (optional)</label>
+        <textarea [(ngModel)]="orderNotes" rows="2" placeholder="Special instructions..."></textarea>
+      </div>
+
+      <div class="order-total" *ngIf="selectedItems.length > 0">
+        <span>Estimated Total:</span>
+        <strong>${{ estimatedTotal | number:'1.2-2' }}</strong>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showCreateModal = false">Cancel</button>
+        <button class="btn btn-primary" (click)="createOrder()" [disabled]="selectedItems.length === 0 || loading">
+          Place Order
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── VIEW / EDIT MODAL ── -->
+  <div class="modal-backdrop" *ngIf="showDetailModal && selectedOrder" (click)="showDetailModal = false">
+    <div class="modal" (click)="$event.stopPropagation()">
+
+      <div class="modal-header">
+        <h2>Order #{{ selectedOrder._id?.slice(-8) }}</h2>
+        <button class="icon-btn" (click)="showDetailModal = false">✕</button>
+      </div>
+
+      <div class="order-detail-table">
+        <div class="detail-row">
+          <span>Status</span>
+          <span class="status-badge" [ngClass]="'status-' + selectedOrder.status">
+            {{ selectedOrder.status | titlecase }}
+          </span>
+        </div>
+        <div class="detail-row">
+          <span>Total Amount</span>
+          <strong>${{ selectedOrder.totalAmount | number:'1.2-2' }}</strong>
+        </div>
+        <div class="detail-row">
+          <span>Items</span>
+          <span>{{ selectedOrder.productIds.length }} product(s)</span>
+        </div>
+        <div class="detail-row">
+          <span>Shipping Address</span>
+          <span>{{ selectedOrder.shippingAddress || 'N/A' }}</span>
+        </div>
+        <div class="detail-row">
+          <span>Date</span>
+          <span>{{ selectedOrder.createdAt | date:'medium' }}</span>
+        </div>
+      </div>
+
+      <div class="form-group" *ngIf="isEditing">
+        <label>Update Status</label>
+        <select [(ngModel)]="newStatus">
+          <option value="pending">Pending</option>
+          <option value="confirmed">Confirmed</option>
+          <option value="shipped">Shipped</option>
+          <option value="delivered">Delivered</option>
+          <option value="cancelled">Cancelled</option>
+        </select>
+      </div>
+
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showDetailModal = false">Close</button>
+        <button *ngIf="isEditing" class="btn btn-primary" (click)="updateStatus()">
+          Update Status
+        </button>
+      </div>
+    </div>
+  </div>
+
+
+  <!-- ── DELETE CONFIRM MODAL ── -->
+  <div class="modal-backdrop" *ngIf="showDeleteModal" (click)="showDeleteModal = false">
+    <div class="modal modal-sm" (click)="$event.stopPropagation()">
+      <div class="delete-icon">🗑️</div>
+      <h3>Delete Order?</h3>
+      <p>Order <strong>#{{ orderToDelete?._id?.slice(-8) }}</strong> will be permanently deleted.</p>
+      <div class="modal-footer">
+        <button class="btn btn-secondary" (click)="showDeleteModal = false">Cancel</button>
+        <button class="btn btn-danger" (click)="deleteOrder()">Delete</button>
+      </div>
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,369 @@
+.dashboard {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* Welcome Banner */
+.welcome-banner {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: linear-gradient(135deg, #667eea, #764ba2);
+  color: #fff;
+  border-radius: 16px;
+  padding: 1.75rem 2rem;
+  margin-bottom: 2rem;
+}
+
+.welcome-text h1 {
+  margin: 0 0 0.3rem;
+  font-size: 1.6rem;
+}
+
+.welcome-text p {
+  margin: 0;
+  opacity: 0.85;
+  font-size: 0.95rem;
+}
+
+.welcome-date {
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+/* Stats Grid */
+.stats-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+  margin-bottom: 2rem;
+}
+
+.stat-card {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.25rem;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.stat-card.purple { border-left: 4px solid #805ad5; }
+.stat-card.green  { border-left: 4px solid #38a169; }
+.stat-card.orange { border-left: 4px solid #dd6b20; }
+.stat-card.blue   { border-left: 4px solid #3182ce; }
+
+.stat-icon {
+  font-size: 2rem;
+  line-height: 1;
+}
+
+.stat-label {
+  margin: 0;
+  font-size: 0.78rem;
+  color: #718096;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.stat-value {
+  margin: 0.2rem 0 0;
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #2d3748;
+}
+
+/* Content Grid */
+.content-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+/* Widget */
+.widget {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.07);
+}
+
+.widget-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.25rem;
+}
+
+.widget-header h3 {
+  margin: 0;
+  font-size: 1.05rem;
+  color: #2d3748;
+}
+
+/* City Search */
+.city-form {
+  display: flex;
+  gap: 0.5rem;
+}
+
+.city-input {
+  padding: 0.4rem 0.7rem;
+  border: 1px solid #e2e8f0;
+  border-radius: 6px;
+  font-size: 0.85rem;
+  width: 130px;
+}
+
+.city-input:focus {
+  outline: none;
+  border-color: #667eea;
+}
+
+.btn-go {
+  padding: 0.4rem 0.9rem;
+  background: #667eea;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: background 0.2s;
+}
+
+.btn-go:hover {
+  background: #5a67d8;
+}
+
+/* Weather Loading */
+.weather-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  color: #a0aec0;
+  gap: 0.75rem;
+}
+
+.spinner {
+  width: 2rem;
+  height: 2rem;
+  border: 3px solid #e2e8f0;
+  border-top-color: #667eea;
+  border-radius: 50%;
+  animation: spin 0.8s linear infinite;
+}
+
+@keyframes spin {
+  to { transform: rotate(360deg); }
+}
+
+.weather-error {
+  background: #fff5f5;
+  color: #c53030;
+  padding: 0.75rem 1rem;
+  border-radius: 8px;
+  font-size: 0.9rem;
+}
+
+/* Weather Main */
+.weather-main {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.weather-icon {
+  width: 64px;
+  height: 64px;
+}
+
+.weather-temp {
+  display: flex;
+  flex-direction: column;
+}
+
+.temp-value {
+  font-size: 2.2rem;
+  font-weight: 700;
+  color: #2d3748;
+  line-height: 1;
+}
+
+.temp-feels {
+  font-size: 0.82rem;
+  color: #718096;
+  margin-top: 0.2rem;
+}
+
+.weather-place strong {
+  display: block;
+  font-size: 1rem;
+  color: #2d3748;
+}
+
+.weather-place span {
+  font-size: 0.85rem;
+  color: #718096;
+}
+
+/* Weather Details */
+.weather-details {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0.6rem;
+  margin-bottom: 1rem;
+}
+
+.detail-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  background: #f7fafc;
+  padding: 0.5rem 0.75rem;
+  border-radius: 8px;
+  font-size: 0.82rem;
+}
+
+.detail-label {
+  color: #718096;
+}
+
+.detail-value {
+  font-weight: 600;
+  color: #2d3748;
+}
+
+/* Forecast */
+.forecast {
+  display: flex;
+  gap: 0.5rem;
+  overflow-x: auto;
+  padding-bottom: 0.25rem;
+}
+
+.forecast-item {
+  flex: 1;
+  min-width: 60px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.2rem;
+  background: #ebf8ff;
+  border-radius: 8px;
+  padding: 0.6rem 0.4rem;
+  text-align: center;
+}
+
+.f-day {
+  font-weight: 700;
+  font-size: 0.8rem;
+  color: #2b6cb0;
+}
+
+.f-temp {
+  font-size: 0.75rem;
+  color: #4a5568;
+}
+
+.f-desc {
+  font-size: 0.7rem;
+  color: #718096;
+}
+
+/* Orders List */
+.order-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.order-row:last-child {
+  border-bottom: none;
+}
+
+.order-left {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+}
+
+.order-id {
+  font-weight: 600;
+  font-family: monospace;
+  color: #2d3748;
+  font-size: 0.9rem;
+}
+
+.order-date {
+  font-size: 0.75rem;
+  color: #a0aec0;
+}
+
+.order-right {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 0.3rem;
+}
+
+.order-amount {
+  font-weight: 700;
+  color: #276749;
+}
+
+.order-status {
+  font-size: 0.75rem;
+  padding: 0.15rem 0.55rem;
+  border-radius: 10px;
+  font-weight: 600;
+  text-transform: capitalize;
+}
+
+.status-pending   { background: #fefcbf; color: #744210; }
+.status-confirmed { background: #bee3f8; color: #2a4365; }
+.status-shipped   { background: #c6f6d5; color: #22543d; }
+.status-delivered { background: #9ae6b4; color: #1a202c; }
+.status-cancelled { background: #fed7d7; color: #742a2a; }
+
+.view-all-link {
+  font-size: 0.88rem;
+  color: #667eea;
+  text-decoration: none;
+  font-weight: 500;
+}
+
+.view-all-link:hover {
+  text-decoration: underline;
+}
+
+.empty-state {
+  text-align: center;
+  padding: 2.5rem;
+  color: #a0aec0;
+}
+
+.empty-state a {
+  color: #667eea;
+  font-weight: 500;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .stats-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+@media (max-width: 768px) {
+  .content-grid { grid-template-columns: 1fr; }
+  .welcome-banner { flex-direction: column; gap: 0.75rem; text-align: center; }
+}
+
+@media (max-width: 480px) {
+  .stats-grid { grid-template-columns: 1fr; }
+  .dashboard { padding: 1rem; }
+}

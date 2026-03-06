@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<div class="auth-wrapper">
+  <div class="auth-card">
+
+    <!-- Logo -->
+    <div class="auth-logo">
+      <span class="logo-icon">📦</span>
+      <h1>MEAN Store</h1>
+      <p>Manage your products & orders</p>
+    </div>
+
+    <!-- Tab Switcher -->
+    <div class="auth-tabs">
+      <button [class.active]="mode === 'login'" (click)="mode = 'login'">Login</button>
+      <button [class.active]="mode === 'register'" (click)="mode = 'register'">Register</button>
+    </div>
+
+    <!-- Alerts -->
+    <div class="alert alert-error" *ngIf="errorMsg">
+      <span>⚠️</span> {{ errorMsg }}
+    </div>
+    <div class="alert alert-success" *ngIf="successMsg">
+      <span>✅</span> {{ successMsg }}
+    </div>
+
+    <!-- LOGIN FORM -->
+    <form *ngIf="mode === 'login'" (ngSubmit)="onLogin()" #loginForm="ngForm">
+      <div class="form-group">
+        <label for="loginUsername">Username</label>
+        <input
+          id="loginUsername"
+          type="text"
+          name="username"
+          [(ngModel)]="loginData.username"
+          required
+          placeholder="Enter your username"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="loginPassword">Password</label>
+        <div class="input-wrapper">
+          <input
+            id="loginPassword"
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="loginData.password"
+            required
+            placeholder="Enter your password"
+          />
+          <button type="button" class="toggle-pw" (click)="showPassword = !showPassword">
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="loading || loginForm.invalid">
+        <span *ngIf="!loading">Login</span>
+        <span *ngIf="loading" class="spinner-sm"></span>
+      </button>
+    </form>
+
+    <!-- REGISTER FORM -->
+    <form *ngIf="mode === 'register'" (ngSubmit)="onRegister()" #registerForm="ngForm">
+      <div class="form-group">
+        <label for="regUsername">Username</label>
+        <input
+          id="regUsername"
+          type="text"
+          name="username"
+          [(ngModel)]="registerData.username"
+          required
+          minlength="3"
+          pattern="[a-zA-Z0-9_]+"
+          placeholder="e.g. john_doe"
+        />
+        <small>Letters, numbers, underscores only</small>
+      </div>
+
+      <div class="form-group">
+        <label for="regEmail">Email</label>
+        <input
+          id="regEmail"
+          type="email"
+          name="email"
+          [(ngModel)]="registerData.email"
+          required
+          placeholder="john@example.com"
+        />
+      </div>
+
+      <div class="form-group">
+        <label for="regPassword">Password</label>
+        <div class="input-wrapper">
+          <input
+            id="regPassword"
+            [type]="showPassword ? 'text' : 'password'"
+            name="password"
+            [(ngModel)]="registerData.password"
+            required
+            minlength="6"
+            placeholder="Min. 6 characters with a number"
+          />
+          <button type="button" class="toggle-pw" (click)="showPassword = !showPassword">
+            {{ showPassword ? '🙈' : '👁️' }}
+          </button>
+        </div>
+      </div>
+
+      <button type="submit" class="btn-submit" [disabled]="loading || registerForm.invalid">
+        <span *ngIf="!loading">Create Account</span>
+        <span *ngIf="loading" class="spinner-sm"></span>
+      </button>
+    </form>
+
+  </div>
+</div>

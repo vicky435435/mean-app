@@ -1,0 +1,157 @@
+<div class="dashboard">
+
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="welcome-text">
+      <h1>Welcome back, {{ user?.username }}! 👋</h1>
+      <p>Here's what's happening in your store today.</p>
+    </div>
+    <div class="welcome-date">{{ today | date:'EEEE, MMMM d, y' }}</div>
+  </div>
+
+  <!-- Stats Row -->
+  <div class="stats-grid">
+    <div class="stat-card purple">
+      <div class="stat-icon">📦</div>
+      <div class="stat-info">
+        <p class="stat-label">Total Products</p>
+        <h2 class="stat-value">{{ totalProducts$ | async }}</h2>
+      </div>
+    </div>
+
+    <div class="stat-card green">
+      <div class="stat-icon">🛒</div>
+      <div class="stat-info">
+        <p class="stat-label">Total Orders</p>
+        <h2 class="stat-value">{{ orders.length }}</h2>
+      </div>
+    </div>
+
+    <div class="stat-card orange">
+      <div class="stat-icon">💰</div>
+      <div class="stat-info">
+        <p class="stat-label">Revenue</p>
+        <h2 class="stat-value">${{ totalRevenue | number:'1.2-2' }}</h2>
+      </div>
+    </div>
+
+    <div class="stat-card blue">
+      <div class="stat-icon">⏳</div>
+      <div class="stat-info">
+        <p class="stat-label">Pending Orders</p>
+        <h2 class="stat-value">{{ pendingOrders }}</h2>
+      </div>
+    </div>
+  </div>
+
+  <!-- Content Grid -->
+  <div class="content-grid">
+
+    <!-- Weather Widget -->
+    <div class="widget">
+      <div class="widget-header">
+        <h3>🌤 Weather</h3>
+        <form (ngSubmit)="fetchWeather()" class="city-form">
+          <input
+            type="text"
+            [(ngModel)]="cityInput"
+            name="city"
+            placeholder="Enter city..."
+            class="city-input"
+          />
+          <button type="submit" class="btn-go">Search</button>
+        </form>
+      </div>
+
+      <!-- Loading -->
+      <div class="weather-loading" *ngIf="weatherLoading">
+        <div class="spinner"></div>
+        <p>Loading weather...</p>
+      </div>
+
+      <!-- Error -->
+      <div class="weather-error" *ngIf="weatherError && !weatherLoading">
+        ⚠️ {{ weatherError }}
+      </div>
+
+      <!-- Weather Data -->
+      <div class="weather-body" *ngIf="weather && !weatherLoading">
+        <div class="weather-main">
+          <img
+            [src]="'https://openweathermap.org/img/wn/' + weather.icon + '@2x.png'"
+            [alt]="weather.description"
+            class="weather-icon"
+            onerror="this.style.display='none'"
+          />
+          <div class="weather-temp">
+            <span class="temp-value">{{ weather.temperature }}°C</span>
+            <span class="temp-feels">Feels like {{ weather.feelsLike }}°C</span>
+          </div>
+          <div class="weather-place">
+            <strong>{{ weather.city }}, {{ weather.country }}</strong>
+            <span>{{ weather.description | titlecase }}</span>
+          </div>
+        </div>
+
+        <div class="weather-details">
+          <div class="detail-item">
+            <span class="detail-label">💧 Humidity</span>
+            <span class="detail-value">{{ weather.humidity }}%</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">💨 Wind</span>
+            <span class="detail-value">{{ weather.windSpeed }} m/s</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">🌡 Pressure</span>
+            <span class="detail-value">{{ weather.pressure }} hPa</span>
+          </div>
+          <div class="detail-item">
+            <span class="detail-label">👁 Visibility</span>
+            <span class="detail-value">{{ weather.visibility / 1000 | number:'1.1-1' }} km</span>
+          </div>
+        </div>
+
+        <!-- 5-day Forecast -->
+        <div class="forecast" *ngIf="forecast.length > 0">
+          <div class="forecast-item" *ngFor="let day of forecast">
+            <span class="f-day">{{ day.date | date:'EEE' }}</span>
+            <span class="f-temp">{{ day.tempMin }}° / {{ day.tempMax }}°</span>
+            <span class="f-desc">{{ day.description | titlecase }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Orders Widget -->
+    <div class="widget">
+      <div class="widget-header">
+        <h3>📋 Recent Orders</h3>
+        <a routerLink="/orders" class="view-all-link">View All →</a>
+      </div>
+
+      <div class="orders-list" *ngIf="orders.length > 0; else noOrders">
+        <div class="order-row" *ngFor="let order of orders.slice(0, 6)">
+          <div class="order-left">
+            <span class="order-id">#{{ order._id?.slice(-6) }}</span>
+            <span class="order-date">{{ order.createdAt | date:'mediumDate' }}</span>
+          </div>
+          <div class="order-right">
+            <span class="order-amount">${{ order.totalAmount | number:'1.2-2' }}</span>
+            <span class="order-status" [ngClass]="'status-' + order.status">
+              {{ order.status | titlecase }}
+            </span>
+          </div>
+        </div>
+      </div>
+
+      <ng-template #noOrders>
+        <div class="empty-state">
+          <p>No orders yet.</p>
+          <a routerLink="/products">Browse Products →</a>
+        </div>
+      </ng-template>
+    </div>
+
+  </div>
+</div>

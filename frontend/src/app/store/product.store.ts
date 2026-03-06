@@ -5,7 +5,7 @@ import { switchMap, map, catchError, of } from 'rxjs';
 import { Product } from '../models';
 import { ProductService } from '../services/product.service';
 
-// ─── Actions ──────────────────────────────────────────────────────────────────
+
 export const ProductActions = {
   loadProducts:        createAction('[Products] Load',          props<{ page?: number; search?: string }>()),
   loadProductsSuccess: createAction('[Products] Load Success',  props<{ products: Product[]; total: number; pages: number }>()),
@@ -42,7 +42,7 @@ const initialState: ProductState = {
   loading: false, error: null, total: 0, pages: 0,
 };
 
-// ─── Reducer ──────────────────────────────────────────────────────────────────
+
 export const productReducer = createReducer(
   initialState,
   on(ProductActions.loadProducts,        s => ({ ...s, loading: true, error: null })),
@@ -77,7 +77,7 @@ export const selectProductsError    = createSelector(selectFeature, s => s.error
 export const selectSelectedProduct  = createSelector(selectFeature, s => s.selectedProduct);
 export const selectProductsTotal    = createSelector(selectFeature, s => s.total);
 
-// ─── Effects ──────────────────────────────────────────────────────────────────
+// ─── Effects 
 @Injectable()
 export class ProductEffects {
   load$ = createEffect(() =>

@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { environment } from '../../environments/environment';
 import { ApiResponse, CreateOrderDto, Order, ForecastData, WeatherData } from '../models';
 
-// ─── Order Service ─────────────────────────────────────────────────────────────
+// ─── Order Service 
 @Injectable({ providedIn: 'root' })
 export class OrderService {
   private readonly baseUrl = `${environment.apiUrl}/orders`;

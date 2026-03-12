@@ -44,7 +44,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ─── GET /api/products/:id ────────────────────────────────────────────────────
+// ─── GET /api/products/:id 
 router.get(
   '/:id',
   [param('id').isMongoId().withMessage('Invalid product ID')],
@@ -64,7 +64,7 @@ router.get(
   }
 );
 
-// ─── POST /api/products ───────────────────────────────────────────────────────
+// ─── POST /api/products 
 router.post(
   '/',
   protect,
@@ -91,7 +91,7 @@ router.post(
   }
 );
 
-// ─── PUT /api/products/:id ────────────────────────────────────────────────────
+// ─── PUT /api/products/:id.
 router.put(
   '/:id',
   protect,

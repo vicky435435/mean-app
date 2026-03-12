@@ -69,7 +69,7 @@ export const productReducer = createReducer(
   on(ProductActions.clearError,         s => ({ ...s, error: null })),
 );
 
-// ─── Selectors ────────────────────────────────────────────────────────────────
+// ─── Selectors
 const selectFeature       = createFeatureSelector<ProductState>('products');
 export const selectAllProducts      = createSelector(selectFeature, s => s.products);
 export const selectProductsLoading  = createSelector(selectFeature, s => s.loading);

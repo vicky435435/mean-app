@@ -9,7 +9,7 @@ const router = express.Router();
 // All order routes require authentication
 router.use(protect);
 
-// ─── Helper ───────────────────────────────────────────────────────────────────
+
 const handleValidation = (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
@@ -18,10 +18,7 @@ const handleValidation = (req, res) => {
   return null;
 };
 
-/**
- * Recalculate total amount by fetching current product prices.
- * productItems: [{ productId, quantity }]
- */
+
 const calculateTotal = async (productItems) => {
   let total = 0;
   const enrichedItems = [];
@@ -42,7 +39,7 @@ const calculateTotal = async (productItems) => {
   return { total: parseFloat(total.toFixed(2)), enrichedItems };
 };
 
-// ─── GET /api/orders ──────────────────────────────────────────────────────────
+// ─── GET /api/orders 
 router.get('/', async (req, res) => {
   try {
     const orders = await Order.find({ userId: req.user.id })
@@ -55,7 +52,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-// ─── GET /api/orders/:id ──────────────────────────────────────────────────────
+// ─── GET /api/orders/:id 
 router.get(
   '/:id',
   [param('id').isMongoId().withMessage('Invalid order ID')],
@@ -85,7 +82,7 @@ router.get(
   }
 );
 
-// ─── POST /api/orders ─────────────────────────────────────────────────────────
+// ─── POST /api/orders 
 router.post(
   '/',
   [
@@ -134,7 +131,7 @@ router.post(
   }
 );
 
-// ─── PUT /api/orders/:id ──────────────────────────────────────────────────────
+// ─── PUT /api/orders/:id 
 router.put(
   '/:id',
   [
@@ -190,7 +187,7 @@ router.put(
   }
 );
 
-// ─── DELETE /api/orders/:id ───────────────────────────────────────────────────
+// ─── DELETE /api/orders/:id 
 router.delete(
   '/:id',
   [param('id').isMongoId().withMessage('Invalid order ID')],

@@ -15,7 +15,7 @@ const PORT = process.env.PORT || 5000;
 
 // ─── Middleware ───────────────────────────────────────────────────────────────
 app.use(cors({
-  origin:  true, // Angular dev server
+  origin:  true, 
   credentials: true,
 }));
 app.use(express.json());
@@ -25,13 +25,13 @@ app.use(express.urlencoded({ extended: true }));
 connectMongoDB();
 connectMySQL().then(() => initializeMySQL());
 
-// ─── Routes ───────────────────────────────────────────────────────────────────
+// ─── Routes 
 app.use('/api/products', productRoutes);
 app.use('/api/users', userRoutes);
 app.use('/api/orders', orderRoutes);
 app.use('/api/weather', weatherRoutes);
 
-// ─── Health Check ─────────────────────────────────────────────────────────────
+// ─── Health Check 
 app.get('/api/health', (req, res) => {
   res.json({
     status: 'OK',
@@ -40,12 +40,12 @@ app.get('/api/health', (req, res) => {
   });
 });
 
-// ─── 404 Handler ─────────────────────────────────────────────────────────────
+// ─── 404 Handler 
 app.use((req, res) => {
   res.status(404).json({ success: false, message: 'Route not found' });
 });
 
-// ─── Global Error Handler ─────────────────────────────────────────────────────
+
 app.use((err, req, res, next) => {
   console.error('Unhandled Error:', err.stack);
   res.status(err.status || 500).json({
@@ -55,7 +55,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-// ─── Start Server ─────────────────────────────────────────────────────────────
+
 app.listen(PORT, () => {
   console.log(`\n🚀 Server running on http://localhost:${PORT}`);
   console.log(`📦 Environment: ${process.env.NODE_ENV}`);

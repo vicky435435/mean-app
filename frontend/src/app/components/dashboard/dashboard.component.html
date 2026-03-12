@@ -3,7 +3,7 @@
   <!-- Welcome Banner -->
   <div class="welcome-banner">
     <div class="welcome-text">
-      <h1>Welcome back, {{ user?.username }}! 👋</h1>
+      <h1>Welcome back, {{ user?.username }}! </h1>
       <p>Here's what's happening in your store today.</p>
     </div>
     <div class="welcome-date">{{ today | date:'EEEE, MMMM d, y' }}</div>
@@ -12,7 +12,7 @@
   <!-- Stats Row -->
   <div class="stats-grid">
     <div class="stat-card purple">
-      <div class="stat-icon">📦</div>
+      <div class="stat-icon"></div>
       <div class="stat-info">
         <p class="stat-label">Total Products</p>
         <h2 class="stat-value">{{ totalProducts$ | async }}</h2>
@@ -20,7 +20,7 @@
     </div>
 
     <div class="stat-card green">
-      <div class="stat-icon">🛒</div>
+      <div class="stat-icon"></div>
       <div class="stat-info">
         <p class="stat-label">Total Orders</p>
         <h2 class="stat-value">{{ orders.length }}</h2>
@@ -28,7 +28,7 @@
     </div>
 
     <div class="stat-card orange">
-      <div class="stat-icon">💰</div>
+      <div class="stat-icon"></div>
       <div class="stat-info">
         <p class="stat-label">Revenue</p>
         <h2 class="stat-value">${{ totalRevenue | number:'1.2-2' }}</h2>
@@ -36,7 +36,7 @@
     </div>
 
     <div class="stat-card blue">
-      <div class="stat-icon">⏳</div>
+      <div class="stat-icon"></div>
       <div class="stat-info">
         <p class="stat-label">Pending Orders</p>
         <h2 class="stat-value">{{ pendingOrders }}</h2>
@@ -50,7 +50,7 @@
     <!-- Weather Widget -->
     <div class="widget">
       <div class="widget-header">
-        <h3>🌤 Weather</h3>
+        <h3>Weather</h3>
         <form (ngSubmit)="fetchWeather()" class="city-form">
           <input
             type="text"
@@ -71,7 +71,7 @@
 
       <!-- Error -->
       <div class="weather-error" *ngIf="weatherError && !weatherLoading">
-        ⚠️ {{ weatherError }}
+         {{ weatherError }}
       </div>
 
       <!-- Weather Data -->
@@ -126,7 +126,7 @@
     <!-- Recent Orders Widget -->
     <div class="widget">
       <div class="widget-header">
-        <h3>📋 Recent Orders</h3>
+        <h3> Recent Orders</h3>
         <a routerLink="/orders" class="view-all-link">View All →</a>
       </div>
 
@@ -148,7 +148,7 @@
       <ng-template #noOrders>
         <div class="empty-state">
           <p>No orders yet.</p>
-          <a routerLink="/products">Browse Products →</a>
+          <a routerLink="/products">Browse Products </a>
         </div>
       </ng-template>
     </div>

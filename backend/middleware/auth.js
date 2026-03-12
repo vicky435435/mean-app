@@ -1,9 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-/**
- * Middleware: verify a Bearer JWT from the Authorization header.
- * Attaches decoded payload to req.user on success.
- */
+
 const protect = (req, res, next) => {
   const authHeader = req.headers.authorization;
 
